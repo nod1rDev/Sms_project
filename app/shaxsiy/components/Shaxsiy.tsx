@@ -105,8 +105,8 @@ function Shaxsiy() {
   };
 
   return (
-    <div className="px-4 py-6 text-lg">
-      <h1 className="font-bold text-[28px] mb-2">
+    <div className="px-4 py-6 text-2xl">
+      <h1 className="font-bold text-[36px] mb-2">
         {latinToCyrillic("Shaxsiy malumotlar")}
       </h1>
       <div className="flex w-full justify-between">
@@ -121,8 +121,8 @@ function Shaxsiy() {
             </IconButton>
           </div>
 
-          <div className="flex flex-col">
-            <h1 className="font-bold text-[18px]">
+          <div className="flex flex-col justify-center">
+            <h1 className="font-bold text-[32px]">
               {latinToCyrillic("Ish profilinggiz nomi:")}{" "}
             </h1>
             <span className=" text-slate-400 font-bold">

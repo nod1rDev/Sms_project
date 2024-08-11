@@ -64,7 +64,7 @@ export default function Header() {
 
   return (
     <div className="py-6 min-h-[100vh] w-[300px] fixed top-0 left-0 flex flex-col bg-[#1976D2] text-white">
-      <Link href={"/"}>
+      <Link href={"/send"}>
         <div className="flex pl-3 gap-2 items-center">
           <div className="w-[54px] h-[54px] rounded-[999px] bg-white">
             <img

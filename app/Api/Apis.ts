@@ -100,22 +100,14 @@ export const getAuth = async (JWT: any) => {
 };
 
 // workers
-export const getAllWorkers = async (
-  JWT: any,
-  id: any,
-  page?: any,
-  limit?: any
-) => {
-  const res = await fetch(
-    URL + "/worker/get/" + id + `?page=${page}&limit=${limit}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + JWT,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+export const getAllWorkers = async (JWT: any, date: any) => {
+  const res = await fetch(URL + `/report/get/reports/by/date?date=${date}`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + JWT,
+      "Content-Type": "application/json",
+    },
+  });
 
   const data = await res.json();
   return data;
@@ -1478,5 +1470,18 @@ export const cleintExcel = async (JWT: any) => {
   });
 
   const data = await res.blob();
+  return data;
+};
+
+export const getDates = async (JWT: any) => {
+  const res = await fetch(URL + `/report/get/all/dates`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + JWT,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
   return data;
 };

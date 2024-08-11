@@ -211,6 +211,7 @@ export default function AddFuqaroTab({
                               autoComplete="off"
                               autoCorrect="off"
                               spellCheck="false"
+                              helperText={9 - row?.phone.length + " raqam kiriting"}
                               InputProps={{
                                 autoComplete: "off",
                                 autoCorrect: "off",

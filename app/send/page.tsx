@@ -26,7 +26,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { alertChange } from "@/app/Redux/ShaxsiySlice";
 import { changeReload } from "@/app/Redux/AuthSlice";
-import { ListItemText } from "@mui/material";
+import { ListItemText, CircularProgress, Backdrop } from "@mui/material";
 
 interface Worker {
   FIO: string;
@@ -46,6 +46,7 @@ const Page: React.FC = () => {
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [filteredWorkers, setFilteredWorkers] = useState<Worker[]>([]);
   const [search, setSearch] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const JWT = useSelector((state: any) => state.auth.JWT);
   const [infoData, setInfoData] = useState({
     summa: "",
@@ -132,7 +133,14 @@ const Page: React.FC = () => {
     });
 
     if (pureWorker.length > 0) {
-      createWorker(pureWorker);
+      const calculatedTime = pureWorker.length * 400; // 0.5 seconds per worker
+
+      setLoading(true);
+
+      setTimeout(async () => {
+        await createWorker(pureWorker);
+        setLoading(false);
+      }, calculatedTime);
     } else {
       dispatch(
         alertChange({
@@ -143,6 +151,16 @@ const Page: React.FC = () => {
       );
     }
   };
+
+  const handleSelectAll = () => {
+    setWorkers((prevWorkers) =>
+      prevWorkers.map((worker) => ({ ...worker, selected: !worker.selected }))
+    );
+    setFilteredWorkers((prevFiltered) =>
+      prevFiltered.map((worker) => ({ ...worker, selected: !worker.selected }))
+    );
+  };
+
   function cyrillicToLatin(input: string): string {
     const map: { [key: string]: string } = {
       А: "A",
@@ -218,6 +236,7 @@ const Page: React.FC = () => {
       .map((char) => map[char] || char)
       .join("");
   }
+
   function normalizeText(input: string): string {
     const latinized = checkName(input) ? input : cyrillicToLatin(input);
 
@@ -367,12 +386,20 @@ const Page: React.FC = () => {
               }}
             />
           </form>
-          <span className="font-bold text-[18px] mt-5 mb-2 flex justify-end w-full">
-            {latinToCyrillic("jami ") +
-              workers?.filter((e: any) => e.selected).length +
-              " " +
-              latinToCyrillic("mijoz biriktirildi")}
-          </span>
+          <div className="font-bold text-[18px] mt-5 mb-2 flex  justify-between w-full">
+            <div className="flex  justify-center gap-2">
+              <Checkbox onClick={handleSelectAll}  />
+              <span className="mt-1">
+                {latinToCyrillic("hammasini tanlash")}
+              </span>
+            </div>
+            <span className="">
+              {latinToCyrillic("jami ") +
+                workers?.filter((e: any) => e.selected).length +
+                " " +
+                latinToCyrillic("mijoz biriktirildi")}
+            </span>
+          </div>
           <Button variant="contained" color="info" onClick={handleSubmit}>
             {latinToCyrillic("Jo'natish")}
           </Button>
@@ -420,6 +447,12 @@ const Page: React.FC = () => {
           </div>
         </List>
       </div>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 };
