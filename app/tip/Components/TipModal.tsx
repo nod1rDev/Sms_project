@@ -190,7 +190,7 @@ export default function TipModal({
           <DialogTitle id="responsive-dialog-title">
             {`"${open.name}"` +
               " " +
-              latinToCyrillic("ushbu Fuqoroni ochirishni istaysizmi ?")}
+              latinToCyrillic("ushbu Mijozni ochirishni istaysizmi ?")}
           </DialogTitle>
           <div className="w-[300px] mt-5"></div>
           <DialogActions>
