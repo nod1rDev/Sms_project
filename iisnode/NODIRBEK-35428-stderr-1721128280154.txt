@@ -1,0 +1,15 @@
+Application has thrown an uncaught exception and is terminated:
+Error: Cannot find module 'express'
+Require stack:
+- D:\Documents\Work\millyGvardiya\axrana\server.js
+- C:\Program Files\iisnode\interceptor.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1143:15)
+    at D:\Documents\Work\millyGvardiya\axrana\node_modules\next\dist\server\require-hook.js:55:36
+    at Module._load (node:internal/modules/cjs/loader:984:27)
+    at Module.require (node:internal/modules/cjs/loader:1234:19)
+    at mod.require (D:\Documents\Work\millyGvardiya\axrana\node_modules\next\dist\server\require-hook.js:65:28)
+    at require (node:internal/modules/helpers:176:18)
+    at Object.<anonymous> (D:\Documents\Work\millyGvardiya\axrana\server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1375:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1434:10)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)

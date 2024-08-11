@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input:focus {
+  outline: none !important;
+  border-color: #719ece;
+}
+input.no-autocomplete {
+  background-color: #f9f9f9; /* Light gray background */
+  border: 1px solid #ccc; /* Light gray border */
+}
+body {
+  font-family: "Times New Roman";
+}
+.login {
+  background: url(https://st2.depositphotos.com/1017986/8614/i/450/depositphotos_86146310-stock-photo-close-up-of-euro-paper.jpg)
+      no-repeat,
+    #0b090a8c;
+
+  background-size: cover;
+}
+
+.mui-selector {
+  display: flex;
+  flex-direction: column;
+  min-width: 15%;
+}
+
+.mui-label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.mui-select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  background-color: white;
+}
+
+.mui-select:focus {
+  outline: none;
+  border-color: #007bff; /* MUI blue color */
+}
+
+.mui-menu {
+  position: absolute;
+  z-index: 10;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin-top: 4px;
+}
+
+.mui-menu-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.mui-menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.menuButtun {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.contract-item {
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
