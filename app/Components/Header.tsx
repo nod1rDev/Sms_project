@@ -7,8 +7,7 @@ import SecurityIcon from "@mui/icons-material/Security";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MenuBar from "./MenuBar";
-import MenuBar2 from "./MenuBar2";
+
 import { puJWT } from "../Redux/AuthSlice";
 import { latinToCyrillic } from "../tip/add/Components/lotin";
 import Link from "next/link";
