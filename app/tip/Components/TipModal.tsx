@@ -150,14 +150,16 @@ export default function TipModal({
                   }}
                 />
                 <TextField
-                  label={latinToCyrillic("Sharifi")}
-                  value={value.fatherName}
+                  label={latinToCyrillic("Telfon Raqami")}
+                  value={value.phone}
                   onChange={handleChange}
                   fullWidth
-                  name="fatherName"
+                  name="phone"
                   autoComplete="off"
                   autoCorrect="off"
+                  type="number"
                   spellCheck="false"
+                  helperText={9 - value.phone?.length + " raqam kiriting"}
                   InputProps={{
                     autoComplete: "off",
                     autoCorrect: "off",

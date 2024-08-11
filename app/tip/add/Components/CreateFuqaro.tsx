@@ -34,7 +34,7 @@ function CreateFuqaro({ data, setData }: { data: any; setData: any }) {
   const [createInp, setCreateInp] = useState({
     lastname: "",
     firstname: "",
-    fatherName: "",
+    phone: "",
   });
 
   const [clear, setClear] = useState(1);
@@ -60,7 +60,7 @@ function CreateFuqaro({ data, setData }: { data: any; setData: any }) {
         setCreateInp({
           lastname: "",
           firstname: "",
-          fatherName: "",
+          phone: "",
         });
         setClear(clear + 213);
       } else {
@@ -114,7 +114,7 @@ function CreateFuqaro({ data, setData }: { data: any; setData: any }) {
       redirect: "follow",
     };
 
-    fetch(URL + "/worker/import/excel", requestOptions)
+    fetch(URL + "/client/import/excel", requestOptions)
       .then((response) => response.text())
       .then((result: any) => {
         const res = textToJson(result);
@@ -223,20 +223,22 @@ function CreateFuqaro({ data, setData }: { data: any; setData: any }) {
           }}
         />
         <TextField
-          name="fatherName"
+          name="phone"
           sx={{ width: "33%" }}
           onChange={handleChange}
-          value={createInp.fatherName}
+          value={createInp.phone}
           id="outlined-basic"
           autoComplete="off"
           autoCorrect="off"
           spellCheck="false"
+          type="number"
           InputProps={{
             autoComplete: "off",
             autoCorrect: "off",
             spellCheck: "false",
           }}
-          label={latinToCyrillic("Sharifi")}
+          helperText={9 - createInp?.phone.length + " raqam kiriting"}
+          label={latinToCyrillic("Telfon Raqami")}
           variant="outlined"
         />
       </div>

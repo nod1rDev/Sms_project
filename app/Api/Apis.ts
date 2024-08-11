@@ -1378,3 +1378,109 @@ export const deltePushWorker = async (JWT: any, id: any, task_id: any) => {
 
   return data;
 };
+
+//clien
+export const createClient = async (JWT: any, value: any) => {
+  const res = await fetch(URL + "/client/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + JWT,
+    },
+    body: JSON.stringify(value),
+  });
+
+  const data = await res.json();
+
+  return data;
+};
+
+export const getAllClients = async (JWT: any, page: any, limet: any) => {
+  const res = await fetch(URL + `/client/get/?page=${page}&limit=${limet}`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + JWT,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+  return data;
+};
+export const getClientsGetById = async (JWT: any, id: any) => {
+  const res = await fetch(URL + `/client/get/element/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + JWT,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+  return data;
+};
+
+export const updateClient = async (JWT: any, value: any, id: any) => {
+  const res = await fetch(URL + "/client/update/" + id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + JWT,
+    },
+    body: JSON.stringify(value),
+  });
+
+  const data = await res.json();
+
+  return data;
+};
+export const deleteClient = async (JWT: any, id: any) => {
+  const res = await fetch(URL + "/client/delete/" + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + JWT,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+  return data;
+};
+export const searchClient = async (JWT: any, value: any) => {
+  const res = await fetch(URL + "/client/search", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + JWT,
+    },
+    body: JSON.stringify({ username: value }),
+  });
+
+  const data = await res.json();
+
+  return data;
+};
+export const getClientCheked = async (JWT: any) => {
+  const res = await fetch(URL + `/client/for/checked`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + JWT,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+  return data;
+};
+export const cleintExcel = async (JWT: any) => {
+  const res = await fetch(URL + `/client/export/to/excel`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + JWT,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.blob();
+  return data;
+};

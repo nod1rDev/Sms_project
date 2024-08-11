@@ -13,11 +13,16 @@ import { useRouter } from "next/navigation";
 import { latinToCyrillic } from "../add/Components/lotin";
 import AdminTab from "./AdminTab";
 import {
+  cleintExcel,
+  deleteClient,
   deleteWorker,
   getAllBatalyon,
+  getAllClients,
   getAllWorkers,
   getExcelWorker1,
+  searchClient,
   searchWorker,
+  updateClient,
   updateWorker,
 } from "@/app/Api/Apis";
 
@@ -41,7 +46,7 @@ function Tip() {
   const [searchStatus, setSearchStatus] = useState(false);
   const getAllRanks = async () => {
     try {
-      const res = await getAllWorkers(JWT, null, page, rowsPerPage);
+      const res = await getAllClients(JWT, page, rowsPerPage);
       setData(res);
       setAllRanks(res.data);
       setFilteredRanks(res.data);
@@ -55,7 +60,7 @@ function Tip() {
   }, [batalyon?.id, page, rowsPerPage]);
 
   const deleteUnvon = async () => {
-    const res = await deleteWorker(JWT, open.id);
+    const res = await deleteClient(JWT, open.id);
     if (res.success) {
       handleClose();
       dispatch(
@@ -82,13 +87,13 @@ function Tip() {
   };
 
   const EditUnvon = async (value: any) => {
-    const res = await updateWorker(JWT, open.id, value);
+    const res = await updateClient(JWT, value, open.id);
     if (res.success) {
       handleClose();
       dispatch(
         alertChange({
           open: true,
-          message: latinToCyrillic("FIO tahrirlandi"),
+          message: latinToCyrillic("Mijoz malumotlari tahrirlandi"),
           status: "success",
         })
       );
@@ -118,8 +123,7 @@ function Tip() {
     setValue({
       lastname: lastname,
       firstname: firstname,
-      fatherName: fatherName,
-      batalyon: open.batalyon,
+      phone: open.phone,
     });
   }, [open.open]);
 
@@ -150,7 +154,7 @@ function Tip() {
   };
 
   const searchWorkerByName = async (value: any) => {
-    const res = await searchWorker(JWT, value);
+    const res = await searchClient(JWT, value);
     if (!res.success) {
       dispatch(
         alertChange({
@@ -160,8 +164,8 @@ function Tip() {
         })
       );
     } else {
-      setAllRanks(res.data);
-      setFilteredRanks(res.data);
+      setAllRanks([res.data]);
+      setFilteredRanks([res.data]);
     }
   };
 
@@ -192,7 +196,7 @@ function Tip() {
 
   const downloadExcel = async () => {
     try {
-      const excelBlob = await getExcelWorker1(JWT);
+      const excelBlob = await cleintExcel(JWT);
       const url = window.URL.createObjectURL(excelBlob);
       const a = document.createElement("a");
       a.href = url;
@@ -229,7 +233,7 @@ function Tip() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 fullWidth
-                label={latinToCyrillic("FIO orqali qidiring")}
+                label={latinToCyrillic("Mijoz ismi ")}
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck="false"

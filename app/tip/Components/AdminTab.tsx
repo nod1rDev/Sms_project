@@ -27,7 +27,7 @@ const CustomTableHead = styled(TableHead)(({ theme }) => ({
   },
 }));
 interface Column {
-  id: "number" | "FIO" | "actions";
+  id: "number" | "FIO" | "Phone" | "actions";
   label: string;
   minWidth?: number;
   align?: "right" | "center" | "left";
@@ -37,8 +37,13 @@ interface Column {
 const columns: readonly Column[] = [
   { id: "number", label: "т/р", align: "left", minWidth: 5 },
 
-  { id: "FIO", label: latinToCyrillic("FIO"), align: "left", minWidth: 180 },
-
+  { id: "FIO", label: latinToCyrillic("Mijoz Ismi"), align: "left", minWidth: 140 },
+  {
+    id: "Phone",
+    label: latinToCyrillic("Telefon Raqami"),
+    align: "center",
+    minWidth: 100,
+  },
   {
     id: "actions",
     label: latinToCyrillic("Amallar"),
@@ -50,7 +55,7 @@ const columns: readonly Column[] = [
 interface Data {
   number: any;
   FIO: any;
-
+  Phone: any;
   actions: any;
   id: number;
 }
@@ -58,14 +63,14 @@ interface Data {
 function createData(
   number: any,
   FIO: any,
-
+  Phone: any,
   actions: any,
   id: number
 ): Data {
   return {
     number,
     FIO,
-
+    Phone,
     actions,
     id,
   };
@@ -87,7 +92,7 @@ export default function AdminTab({
   handleChangeRowsPerPage: any;
 }) {
   const rows = ranks.map((e: any, i: any) =>
-    createData(i + 1, e.fio, null, e.id)
+    createData(i + 1, e.username, e.phone, null, e.id)
   );
   const dispatch = useDispatch();
   const router = useRouter();
@@ -132,7 +137,7 @@ export default function AdminTab({
                       <TableCell key={column.id} align={column.align}>
                         {e == 0 ? (
                           page * rowsPerPage + i + 1
-                        ) : e == 2 ? (
+                        ) : e == 3 ? (
                           <>
                             <IconButton
                               onClick={(e) => {
@@ -144,6 +149,7 @@ export default function AdminTab({
                                     id: row.id,
                                     name: row.FIO,
                                     FIO: row.FIO,
+                                    phone: row.Phone,
                                   })
                                 );
                               }}
@@ -169,6 +175,7 @@ export default function AdminTab({
                                     id: row.id,
                                     name: row.FIO,
                                     FIO: row.FIO,
+                                    phone: row.Phone,
                                   })
                                 );
                               }}

@@ -8,18 +8,25 @@ import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { alertChange } from "@/app/Redux/ShaxsiySlice";
 import { latinToCyrillic } from "./lotin";
-import { createWorker } from "@/app/Api/Apis";
+import { createClient, createWorker } from "@/app/Api/Apis";
 function AddFuqoro() {
   const [data, setData] = useState([]);
   const JWT = useSelector((s: any) => s.auth.JWT);
   const router = useRouter();
   const create = async () => {
-    const res = await createWorker(JWT, data);
+    const pureData = data.map((e: any) => {
+      return {
+        lastname: e.lastname,
+        firstname: e.firstname,
+        phone: e.phone,
+      };
+    });
+    const res = await createClient(JWT, pureData);
     if (res.success) {
       dispatch(
         alertChange({
           open: true,
-          message: latinToCyrillic("Fuqoro Qo'shildi"),
+          message: latinToCyrillic("Mijoz Qo'shildi"),
           status: "success",
         })
       );
@@ -43,7 +50,7 @@ function AddFuqoro() {
   return (
     <div className="flex flex-col max-w-[80%] mx-auto">
       <div className=" mx-auto text-[28px] font-bold mb-4">
-        {latinToCyrillic("Xodim qo'shish")}
+        {latinToCyrillic("Mijoz qo'shish")}
       </div>
       <div className="mb-4">
         <Button

@@ -28,7 +28,7 @@ const CustomTableHead = styled(TableHead)(({ theme }) => ({
 }));
 
 interface Column {
-  id: "number" | "lastname" | "firstname" | "fatherName" | "actions";
+  id: "number" | "lastname" | "firstname" | "phone" | "actions";
   label: string;
   minWidth?: number;
   align?: "right" | "center" | "left";
@@ -50,8 +50,8 @@ const columns: readonly Column[] = [
     minWidth: 180,
   },
   {
-    id: "fatherName",
-    label: latinToCyrillic("Sharifi"),
+    id: "phone",
+    label: latinToCyrillic("Telfon Raqami"),
     align: "center",
     minWidth: 180,
   },
@@ -68,7 +68,7 @@ interface Data {
   lastname: any;
 
   firstname: any;
-  fatherName: any;
+  phone: any;
   actions: any;
   id: number;
 }
@@ -78,11 +78,11 @@ function createData(
   lastname: any,
 
   firstname: any,
-  fatherName: any,
+  phone: any,
   actions: any,
   id: number
 ): Data {
-  return { number, lastname, firstname, fatherName, actions, id };
+  return { number, lastname, firstname, phone, actions, id };
 }
 
 export default function AddFuqaroTab({
@@ -116,7 +116,7 @@ export default function AddFuqaroTab({
 
   const rows = ranks
     ? ranks.map((e: any, i: number) =>
-        createData(i + 1, e.lastname, e.firstname, e.fatherName, null, e._id)
+        createData(i + 1, e.lastname, e.firstname, e.phone, null, e._id)
       )
     : [];
 
@@ -203,10 +203,11 @@ export default function AddFuqaroTab({
                         ) : index === 3 ? (
                           <div className="flex w-full items-center justify-between gap-3">
                             <TextField
-                              value={row.fatherName}
+                              value={row.phone}
                               onChange={handleLatinChange}
                               fullWidth
-                              name="fatherName"
+                              name="phone"
+                              type="number"
                               autoComplete="off"
                               autoCorrect="off"
                               spellCheck="false"
