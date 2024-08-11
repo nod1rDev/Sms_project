@@ -105,12 +105,12 @@ function Shaxsiy() {
   };
 
   return (
-    <div className="px-4 py-6">
+    <div className="px-4 py-6 text-lg">
       <h1 className="font-bold text-[28px] mb-2">
         {latinToCyrillic("Shaxsiy malumotlar")}
       </h1>
       <div className="flex w-full justify-between">
-        <div className="flex rounded-lg relative w-[30%]  bg-slate-50 px-6 py-4 gap-4 flex-col">
+        <div className="flex rounded-lg relative w-[50%]  bg-slate-50 px-6 py-4 gap-4 flex-col">
           <div className=" absolute top-2 right-2">
             <IconButton
               onClick={() => dispatch(setModalShaxsiy(true))}
@@ -127,15 +127,6 @@ function Shaxsiy() {
             </h1>
             <span className=" text-slate-400 font-bold">
               {userData && userData.username}
-            </span>
-          </div>
-
-          <div className="flex flex-col">
-            <h1 className="font-bold text-[18px]">
-              {latinToCyrillic("Ish profilinggiz paroli:")}{" "}
-            </h1>
-            <span className=" text-slate-400 font-bold">
-              {userData && userData.password}
             </span>
           </div>
         </div>
