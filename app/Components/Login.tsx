@@ -54,7 +54,7 @@ export default function Login() {
       sessionStorage.setItem("id", res.data.id);
       res.data.adminstatus
         ? router.push("/shartnoma")
-        : router.push("/shaxsiy");
+        : router.push("/send");
       console.log(res.data.adminstatus);
 
       dispatch(changeAdminStatuss(res.data.adminstatus));

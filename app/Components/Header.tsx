@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import SecurityIcon from "@mui/icons-material/Security";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import SendIcon from "@mui/icons-material/Send";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { puJWT } from "../Redux/AuthSlice";
@@ -19,6 +19,11 @@ export default function Header() {
   const dispatch = useDispatch();
 
   const menuListAdmin = [
+    {
+      name: "Sms jonatish",
+      path: "/send",
+      icon: <SendIcon />,
+    },
     {
       name: "Shaxsiy",
       path: "/shaxsiy",
