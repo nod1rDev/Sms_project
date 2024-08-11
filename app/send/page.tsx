@@ -373,8 +373,8 @@ const Page: React.FC = () => {
               " " +
               latinToCyrillic("mijoz biriktirildi")}
           </span>
-          <Button variant="contained" color="success" onClick={handleSubmit}>
-            {latinToCyrillic("Saqlash")}
+          <Button variant="contained" color="info" onClick={handleSubmit}>
+            {latinToCyrillic("Jo'natish")}
           </Button>
         </div>
 
