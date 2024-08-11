@@ -1383,7 +1383,7 @@ export const createClient = async (JWT: any, value: any) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + JWT,
     },
-    body: JSON.stringify(value),
+    body: JSON.stringify({ clients: value }),
   });
 
   const data = await res.json();
