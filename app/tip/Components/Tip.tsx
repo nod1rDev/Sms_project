@@ -46,7 +46,7 @@ function Tip() {
   const [searchStatus, setSearchStatus] = useState(false);
   const getAllRanks = async () => {
     try {
-      const res = await getAllClients(JWT, page, rowsPerPage);
+      const res = await getAllClients(JWT, page+1, rowsPerPage);
       setData(res);
       setAllRanks(res.data);
       setFilteredRanks(res.data);

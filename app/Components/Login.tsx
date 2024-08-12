@@ -125,13 +125,7 @@ export default function Login() {
                   alignItems: "center",
                 }}
               >
-                <div className="w-[54px] h-[54px] rounded-[999px] bg-white">
-                  <img
-                    className="w-[54px] h-[54px] rounded-[999px]"
-                    src="/icon-192x192.png"
-                    alt=""
-                  />
-                </div>
+                
                 <Typography component="h1" fontWeight={"700"} variant="h5">
                   {latinToCyrillic("SMS")}
                 </Typography>

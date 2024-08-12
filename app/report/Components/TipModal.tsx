@@ -87,11 +87,8 @@ export default function TipModal({
           </div>
           <DialogActions>
             <div className="flex justify-between w-full mt-3 pb-2">
-              <Button variant="contained" color="inherit" onClick={handleClose}>
+              <Button variant="contained" color="info" onClick={handleClose}>
                 {latinToCyrillic("Orqaga")}
-              </Button>
-              <Button onClick={handleSubmite} color="info" variant="contained">
-                {latinToCyrillic("Saqlash")}
               </Button>
             </div>
           </DialogActions>

@@ -18,7 +18,6 @@ import { useParams, useRouter } from "next/navigation";
 
 import TipTab from "../../Components/TipTab";
 
-
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { latinToCyrillic } from "@/app/tip/add/Components/lotin";
 import TipModal from "../../Components/TipModal";
@@ -55,11 +54,6 @@ function Page() {
   }, [batID.id]);
 
   const getAllRanks = async () => {
-    const pagiInfo: any =
-      typeof sessionStorage !== "undefined"
-        ? sessionStorage.getItem("page")
-        : "0";
-
     const res = await getAllWorkers(JWT, id);
 
     setData(res);
@@ -73,7 +67,7 @@ function Page() {
     } else {
       getAllRanks();
     }
-  }, [page, rowsPerPage, searchStatus]);
+  }, [searchStatus]);
 
   const deleteUnvon = async () => {
     const res = await deleteWorker(JWT, open.id);
@@ -169,23 +163,179 @@ function Page() {
       })
     );
   };
+  function cyrillicToLatin(input: string): string {
+    const map: { [key: string]: string } = {
+      А: "A",
+      Б: "B",
+      В: "V",
+      Г: "G",
+      Д: "D",
+      Е: "E",
+      Ё: "Yo",
+      Ж: "Zh",
+      З: "Z",
+      И: "I",
+      Й: "Y",
+      К: "K",
+      Л: "L",
+      М: "M",
+      Н: "N",
+      О: "O",
+      П: "P",
+      Р: "R",
+      С: "S",
+      Т: "T",
+      У: "U",
+      Ф: "F",
+      Х: "X",
+      Ц: "Ts",
+      Ч: "Ch",
+      Ш: "Sh",
+      Щ: "Shch",
+      Ъ: "",
+      Ы: "I",
+      Ь: "",
+      Э: "E",
+      Ю: "Yu",
+      Я: "Ya",
+      а: "a",
+      б: "b",
+      в: "v",
+      г: "g",
+      д: "d",
+      е: "e",
+      ё: "yo",
+      ж: "zh",
+      з: "z",
+      и: "i",
+      й: "y",
+      к: "k",
+      л: "l",
+      м: "m",
+      н: "n",
+      о: "o",
+      п: "p",
+      р: "r",
+      с: "s",
+      т: "t",
+      у: "u",
+      ф: "f",
+      х: "x",
+      ц: "ts",
+      ч: "ch",
+      ш: "sh",
+      щ: "shch",
+      ъ: "",
+      ы: "i",
+      ь: "",
+      э: "e",
+      ю: "yu",
+      я: "ya",
+    };
 
-  const searchWorkerByName = async (value: string) => {
-    const res = await searchWorker(JWT, value);
-    console.log(res);
+    return input
+      .split("")
+      .map((char) => map[char] || char)
+      .join("");
+  }
 
-    if (!res.success) {
-      dispatch(
-        alertChange({
-          open: true,
-          message: latinToCyrillic(res.message),
-          status: "error",
-        })
-      );
-    } else {
-      setAllRanks(res.data);
-      setFilteredRanks(res.data);
+  const cyrillicAlphabet = [
+    "А",
+    "Б",
+    "В",
+    "Г",
+    "Д",
+    "Е",
+    "Ё",
+    "Ж",
+    "З",
+    "И",
+    "Й",
+    "К",
+    "Л",
+    "М",
+    "Н",
+    "О",
+    "П",
+    "Р",
+    "С",
+    "Т",
+    "У",
+    "Ф",
+    "Х",
+    "Ц",
+    "Ч",
+    "Ш",
+    "Щ",
+    "Ъ",
+    "Ы",
+    "Ь",
+    "Э",
+    "Ю",
+    "Я",
+    "а",
+    "б",
+    "в",
+    "г",
+    "д",
+    "е",
+    "ё",
+    "ж",
+    "з",
+    "и",
+    "й",
+    "к",
+    "л",
+    "м",
+    "н",
+    "о",
+    "п",
+    "р",
+    "с",
+    "т",
+    "у",
+    "ф",
+    "х",
+    "ц",
+    "ч",
+    "ш",
+    "щ",
+    "ъ",
+    "ы",
+    "ь",
+    "э",
+    "ю",
+    "я",
+  ];
+  const isLatin = (char: string): boolean => !cyrillicAlphabet.includes(char);
+  const checkName = (name: string): boolean => {
+    for (let i = 0; i < name.length; i++) {
+      if (!isLatin(name[i])) {
+        return false;
+      }
     }
+    return true;
+  };
+  function normalizeText(input: string): string {
+    const latinized = checkName(input) ? input : cyrillicToLatin(input);
+
+    const normalized = latinized
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+    return normalized.replace(/[\W_]+/g, "");
+  }
+  const searchWorkerByName = async (value: string) => {
+    const filtered = allRanks.filter((worker) => {
+      const normalizedWorker = normalizeText(worker.username);
+      const normalizedSearch = normalizeText(search);
+
+      return normalizedWorker.includes(normalizedSearch);
+    });
+
+    setAllRanks(filtered);
+    setFilteredRanks(filtered);
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -207,23 +357,41 @@ function Page() {
     sessionStorage.setItem("rowsPerPage", newRowsPerPage.toString());
   };
 
-  const getBatalyons = async () => {
-    const res = await getAllBatalyon(JWT);
-    setSelector(res.data);
+  const clearSearch = () => {
+    setSearchStatus(false);
+    getAllRanks();
   };
-
-  useEffect(() => {
-    getBatalyons();
-  }, []);
-
-  const handleSelect = (e: any) => {
-    setBatalyon(e.target.value);
-  };
-
   return (
     <>
       <div className="flex gap-4 relative max-w-[95%] mx-auto pt-5 flex-col">
         <div className="flex justify-between">
+          <div className="flex gap-4 items-center">
+            <form onSubmit={handleSearch} className="flex items-center">
+              <TextField
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                fullWidth
+                label={latinToCyrillic("Mijoz ismi ")}
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck="false"
+                InputProps={{
+                  autoComplete: "off",
+                  autoCorrect: "off",
+                  spellCheck: "false",
+                }}
+              />
+            </form>
+            {searchStatus ? (
+              <IconButton type="button" size="large" onClick={clearSearch}>
+                <CloseIcon fontSize="inherit" color="error" />
+              </IconButton>
+            ) : (
+              <IconButton size="large" onClick={handleSearch}>
+                <PersonSearchIcon fontSize="inherit" color="info" />
+              </IconButton>
+            )}
+          </div>
           <Button
             onClick={() => router.back()}
             color="success"

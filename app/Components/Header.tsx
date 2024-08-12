@@ -71,13 +71,7 @@ export default function Header() {
     <div className="py-6 min-h-[100vh] w-[300px] fixed top-0 left-0 flex flex-col bg-[#1976D2] text-white">
       <Link href={"/send"}>
         <div className="flex pl-3 gap-2 items-center">
-          <div className="w-[54px] h-[54px] rounded-[999px] bg-white">
-            <img
-              className="w-[54px] h-[54px] rounded-[999px]"
-              src="/icon-192x192.png"
-              alt=""
-            />
-          </div>
+          
           <h1 className="text-[26px] font-bold">{latinToCyrillic("SMS")}</h1>
         </div>
       </Link>

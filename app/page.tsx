@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { puJWT } from "./Redux/AuthSlice";
 import Tip from "./tip/Components/Tip";
+import Send from "./send/Components/Send";
 
 function Page() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ function Page() {
 
     dispatch(puJWT(sessionStorage.getItem("token")));
   };
-  return <Tip />;
+  return <Send />;
 }
 
 export default Page;
