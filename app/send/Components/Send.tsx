@@ -23,13 +23,24 @@ import {
   pushWorkers,
 } from "@/app/Api/Apis";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { alertChange } from "@/app/Redux/ShaxsiySlice";
 import { changeReload } from "@/app/Redux/AuthSlice";
 import { ListItemText, CircularProgress, Backdrop } from "@mui/material";
 import { setModalCoctav } from "@/app/Redux/CoctavsSlice";
 import SendModal from "./SendModal";
-
+import { styled } from "@mui/material/styles";
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 interface Worker {
   FIO: string;
   selected: boolean;
@@ -56,9 +67,10 @@ const Send: React.FC = () => {
   const [sendData, setSendData] = useState();
 
   const getWorkers = async () => {
-    const res = await getAllClients(JWT, 1, 1000);
+    const res = await getAllClients(JWT, 1, 10000);
     const filData = res.data.map((e: any) => ({
-      FIO: e.username + " " + e.phone,
+      FIO: e.username,
+      phone: e.phone,
       selected: false,
       summa: "",
       _id: e.id,
@@ -336,7 +348,14 @@ const Send: React.FC = () => {
     "ю",
     "я",
   ];
-
+  const textToJson = (text: string) => {
+    try {
+      const jsonObject = JSON.parse(text);
+      return jsonObject;
+    } catch (error) {
+      return { success: false, message: "Invalid JSON format" };
+    }
+  };
   const isLatin = (char: string): boolean => !cyrillicAlphabet.includes(char);
 
   const checkName = (name: string): boolean => {
@@ -350,9 +369,96 @@ const Send: React.FC = () => {
   const handleClose = () => {
     dispatch(setModalCoctav({ open: false }));
   };
+  const [file, setFile] = useState<any>(null);
+  const handleFileChange = (event: any) => {
+    const selectedFile = event.target.files?.[0];
+
+    setFile(selectedFile);
+  };
+  const handleSubmite = async () => {
+    setLoading(true);
+    if (!file) return;
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${JWT}`);
+
+    const formdata = new FormData();
+    formdata.append("file", file);
+
+    const requestOptions: any = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(URL + "/sms/import/from/excel", requestOptions)
+      .then((response) => response.text())
+      .then((result: any) => {
+        const res = textToJson(result);
+        if (res.success) {
+          setLoading(false);
+          dispatch(
+            alertChange({
+              open: true,
+              message: latinToCyrillic("Exel file kiritildi"),
+              status: "success",
+            })
+          );
+          setSendData(res.data);
+          dispatch(setModalCoctav({ open: true }));
+          getWorkers();
+        } else {
+          setLoading(false);
+          dispatch(
+            alertChange({
+              open: true,
+              message: latinToCyrillic(res.message),
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch((error) =>
+        dispatch(
+          alertChange({
+            open: true,
+            message: error,
+            status: "error",
+          })
+        )
+      );
+  };
   return (
     <div className="w-[95%] mt-5 flex-col gap-6 mx-auto">
       <div className="max-w-[100%]">
+        <div className="flex gap-4 items-center">
+          <Button
+            component="label"
+            role={undefined}
+            variant="contained"
+            tabIndex={-1}
+            color="success"
+            startIcon={<CloudUploadIcon />}
+          >
+            {latinToCyrillic("Exel file yuklash")}
+            <VisuallyHiddenInput
+              type="file"
+              hidden
+              accept=".xlsx,.xls"
+              onChange={handleFileChange}
+            />
+          </Button>
+          {file && (
+            <Button
+              onClick={handleSubmite}
+              variant="contained"
+              color="secondary"
+            >
+              {latinToCyrillic("Fileni Yuklash")}
+            </Button>
+          )}
+        </div>
         <div className="flex flex-col pb-5 border-b  gap-3">
           <h1 className="font-bold">{latinToCyrillic("Filter")}</h1>
           <form
@@ -360,7 +466,7 @@ const Send: React.FC = () => {
             className="flex items-center gap-3 w-full"
           >
             <Button variant="contained" color="info" type="submit">
-              {latinToCyrillic("Qidirush")}
+              {latinToCyrillic("Qidirish")}
             </Button>
             <TextField
               value={search}
@@ -413,21 +519,28 @@ const Send: React.FC = () => {
           }}
         >
           <div className="flex flex-col gap-4">
-            {memoizedFilteredWorkers.map((value: Worker) => {
+            {memoizedFilteredWorkers.map((value: any) => {
               const labelId = `checkbox-list-label-${value._id}`;
               return (
                 <ListItem key={value._id} disablePadding>
-                  <div className="border-b w-full flex items-center border-b-[#000] pb-2">
-                    <ListItemIcon>
-                      <Checkbox
-                        onClick={() => handleToggle(value._id)}
-                        edge="start"
-                        checked={value.selected}
-                        disableRipple
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText id={labelId} primary={`${value.FIO}`} />
+                  <div className="border-b w-full flex items-center justify-between border-b-[#000] pb-2">
+                    <div className="flex justify-center">
+                      <ListItemIcon>
+                        <Checkbox
+                          onClick={() => handleToggle(value._id)}
+                          edge="start"
+                          checked={value.selected}
+                          disableRipple
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </ListItemIcon>
+                      <div className="flex mt-2 justify-center">
+                        <span className="w-[200px] text-left">{value.FIO}</span>
+                        <span className="w-[200px] text-right">
+                          {value.phone}
+                        </span>
+                      </div>
+                    </div>
                     <TextField
                       autoComplete="off"
                       label={latinToCyrillic("Summa")}

@@ -40,30 +40,45 @@ interface Column {
 const columns: readonly Column[] = [
   {
     id: "number",
-    label: latinToCyrillic("Sms Jonatilganlar Mijozlar"),
-    align: "center",
-    minWidth: "50%",
+    label: latinToCyrillic("t/r"),
+    align: "left",
+    minWidth: "10%",
   },
   {
     id: "FIO",
-    label: latinToCyrillic("Sms Jonatilmaganlar Mijozlar"),
+    label: latinToCyrillic("Mijoz Ismi"),
     align: "center",
-    minWidth: "50%",
+    minWidth: "30%",
+  },
+  {
+    id: "Otryad",
+    label: latinToCyrillic("Telfon Raqami"),
+    align: "center",
+    minWidth: "30%",
+  },
+  {
+    id: "phone",
+    label: latinToCyrillic("Status"),
+    align: "right",
+    minWidth: "30%",
   },
 ];
 
-function createData(number: any, FIO: any): any {
-  return { number, FIO };
+function createData(number: any, FIO: any, Otryad: any, phone: any): any {
+  return { number, FIO, Otryad, phone };
 }
 
 export default function SendTab({ ranks }: { ranks: any }) {
   const rows = ranks.map((e: any, i: any) =>
-    createData(e.success ? e.username : "___", !e.success ? e.username : "___")
+    createData(
+      i + 1,
+      e.username,
+      e.phone,
+      e.success
+        ? latinToCyrillic("Jonatilgan")
+        : latinToCyrillic("Jonatilinmagan")
+    )
   );
-
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const admin = useSelector((s: any) => s.auth.admin);
 
   return (
     <Paper sx={{ width: "100%", mb: 10 }}>
