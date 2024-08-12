@@ -17,6 +17,7 @@ import { styled } from "@mui/system";
 import { useRouter } from "next/navigation";
 import TablePagination from "@mui/material/TablePagination";
 import { latinToCyrillic } from "@/app/tip/add/Components/lotin";
+import { Button } from "@mui/material";
 
 const CustomTableHead = styled(TableHead)(({ theme }) => ({
   // Asosiy rang
@@ -60,7 +61,7 @@ const columns: readonly Column[] = [
   {
     id: "actions",
     label: latinToCyrillic("Amallar"),
-    minWidth: 150,
+    minWidth: 100,
     align: "right",
   },
 ];
@@ -98,7 +99,7 @@ export default function TipTab({
       e.senddate,
       e.username,
       e.phone,
-      null,
+      e.report,
       null,
       e.id
     )
@@ -116,7 +117,7 @@ export default function TipTab({
 
   return (
     <Paper sx={{ width: "100%", mb: 10 }}>
-      <TableContainer sx={{ overflow: "auto", maxHeight: "78vh" }}>
+      <TableContainer sx={{ overflow: "auto", maxHeight: "88vh" }}>
         <Table stickyHeader aria-label="sticky table">
           <CustomTableHead sx={{ background: "#edede9" }}>
             <TableRow>
@@ -147,9 +148,11 @@ export default function TipTab({
                       <TableCell key={column.id} align={column.align}>
                         {e === 0 ? (
                           page * rowsPerPage + i + 1
-                        ) : e === 3 ? (
+                        ) : e === 4 ? (
                           <>
-                            <IconButton
+                            <Button
+                              variant="contained"
+                              color="info"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 dispatch(
@@ -159,19 +162,16 @@ export default function TipTab({
                                     id: row.id,
                                     name: row.FIO,
                                     FIO: row.FIO,
-                                    batalyon: row.Otryad,
+                                    report: row.xabar,
                                   })
                                 );
                               }}
-                              aria-label="edit"
-                              size="medium"
                             >
-                              <ModeEditOutlineIcon
-                                fontSize="inherit"
-                                color="info"
-                              />
-                            </IconButton>
-
+                              {latinToCyrillic("habarni o'qish")}
+                            </Button>
+                          </>
+                        ) : e === 5 ? (
+                          <>
                             <IconButton
                               sx={{ ml: 1 }}
                               aria-label="delete"
@@ -209,15 +209,6 @@ export default function TipTab({
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 20, 100, 200]}
-        component="div"
-        count={data ? data.count : 0}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
     </Paper>
   );
 }

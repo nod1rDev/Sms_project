@@ -79,94 +79,11 @@ export default function TipModal({
           }}
           aria-labelledby="responsive-dialog-title"
         >
-          <DialogTitle id="responsive-dialog-title">
-            {open.name + " " + latinToCyrillic("o'zgartirin")}
-          </DialogTitle>
+          <div className="font-bold text-[24px] ml-2 mt-2">
+            {latinToCyrillic("Sms habari")}
+          </div>
           <div className="flex flex-row  min-w-[800px] p-4 gap-2 px-4">
-            <div className="w-full flex justify-between gap-4">
-              {adminStatus ? (
-                <FormControl sx={{ width: "40%" }} fullWidth>
-                  <InputLabel id="region-select-label">
-                    {latinToCyrillic("Batalyon")}{" "}
-                  </InputLabel>
-                  <Select
-                    labelId="region-select-label"
-                    id="region-select"
-                    label={latinToCyrillic("Batalyon")}
-                    name="batalyon"
-                    value={value.batalyon}
-                    MenuProps={{
-                      PaperProps: {
-                        style: {
-                          maxHeight: 1124, // Example max height, adjust as needed
-                        },
-                      },
-                    }}
-                    onChange={handleChange}
-                  >
-                    {select &&
-                      select.map((e: any) => (
-                        <MenuItem key={e.username} value={e.username}>
-                          {e.username}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl>
-              ) : (
-                ""
-              )}
-              <div
-                className={`flex gap-2 justify-between ${
-                  adminStatus ? "w-[60%]" : "w-[100%]"
-                }`}
-              >
-                <TextField
-                  label={latinToCyrillic("Familyasi")}
-                  value={value.lastname}
-                  onChange={handleChange}
-                  fullWidth
-                  name="lastname"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  spellCheck="false"
-                  InputProps={{
-                    autoComplete: "off",
-                    autoCorrect: "off",
-                    spellCheck: "false",
-                  }}
-                />
-                <TextField
-                  label={latinToCyrillic("Ismi")}
-                  value={value.firstname}
-                  onChange={handleChange}
-                  fullWidth
-                  name="firstname"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  spellCheck="false"
-                  InputProps={{
-                    autoComplete: "off",
-                    autoCorrect: "off",
-                    spellCheck: "false",
-                  }}
-                />
-                <TextField
-                  label={latinToCyrillic("Sharifi")}
-                  value={value.fatherName}
-                  onChange={handleChange}
-                  fullWidth
-                  name="fatherName"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  spellCheck="false"
-                  InputProps={{
-                    autoComplete: "off",
-                    autoCorrect: "off",
-                    spellCheck: "false",
-                  }}
-                />
-              </div>
-            </div>
+            <span className="font-bold text-[18px]">{open.report}</span>
           </div>
           <DialogActions>
             <div className="flex justify-between w-full mt-3 pb-2">
@@ -189,7 +106,7 @@ export default function TipModal({
           <DialogTitle id="responsive-dialog-title">
             {`"${open.name}"` +
               " " +
-              latinToCyrillic("ushbu Fuqoroni ochirishni istaysizmi ?")}
+              latinToCyrillic("ushbu hisobotni ochirishni istaysizmi ?")}
           </DialogTitle>
           <div className="w-[300px] mt-5"></div>
           <DialogActions>

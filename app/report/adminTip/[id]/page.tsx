@@ -17,10 +17,11 @@ import { setModalTip } from "@/app/Redux/TipSlice";
 import { useParams, useRouter } from "next/navigation";
 
 import TipTab from "../../Components/TipTab";
-import TipModal from "@/app/Components/ExitModal";
+
 
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { latinToCyrillic } from "@/app/tip/add/Components/lotin";
+import TipModal from "../../Components/TipModal";
 
 function Page() {
   const { id } = useParams();

@@ -7,7 +7,7 @@ import SecurityIcon from "@mui/icons-material/Security";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import SendIcon from "@mui/icons-material/Send";
 import LogoutIcon from "@mui/icons-material/Logout";
-
+import TextsmsIcon from "@mui/icons-material/Textsms";
 import { puJWT } from "../Redux/AuthSlice";
 import { latinToCyrillic } from "../tip/add/Components/lotin";
 import Link from "next/link";
@@ -33,6 +33,11 @@ export default function Header() {
       name: "Mijoz",
       path: admin ? "/tip/batalyon" : "/tip",
       icon: <PermIdentityIcon />,
+    },
+    {
+      name: "Xisobot",
+      path: "/report",
+      icon: <TextsmsIcon />,
     },
   ];
 

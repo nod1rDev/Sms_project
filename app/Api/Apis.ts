@@ -202,7 +202,7 @@ export const updateWorker = async (JWT: any, id: any, value: any) => {
 };
 
 export const deleteWorker = async (JWT: any, id: any) => {
-  const res = await fetch(URL + "/worker/delete/" + id, {
+  const res = await fetch(URL + "/report/delete/" + id, {
     method: "DELETE",
     headers: {
       Authorization: "Bearer " + JWT,
