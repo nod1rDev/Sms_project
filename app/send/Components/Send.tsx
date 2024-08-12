@@ -432,7 +432,7 @@ const Send: React.FC = () => {
   return (
     <div className="w-[95%] mt-5 flex-col gap-6 mx-auto">
       <div className="max-w-[100%]">
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center justify-end">
           <Button
             component="label"
             role={undefined}
