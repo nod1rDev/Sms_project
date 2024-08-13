@@ -65,10 +65,12 @@ const Send: React.FC = () => {
   const [infoData, setInfoData] = useState({
     summa: "",
   });
+  const [count, setCount] = useState(true);
   const [sendData, setSendData] = useState();
 
   const getWorkers = async () => {
     const res = await getAllClients(JWT, 1, 10000);
+
     const filData = res.data.map((e: any) => ({
       FIO: e.username,
       phone: e.phone,
@@ -164,12 +166,28 @@ const Send: React.FC = () => {
   };
 
   const handleSelectAll = () => {
-    setWorkers((prevWorkers) =>
-      prevWorkers.map((worker) => ({ ...worker, selected: !worker.selected }))
-    );
-    setFilteredWorkers((prevFiltered) =>
-      prevFiltered.map((worker) => ({ ...worker, selected: !worker.selected }))
-    );
+    setCount(!count);
+    if (count) {
+      setWorkers((prevWorkers) =>
+        prevWorkers.map((worker) => ({ ...worker, selected: true }))
+      );
+      setFilteredWorkers((prevFiltered) =>
+        prevFiltered.map((worker) => ({
+          ...worker,
+          selected: true,
+        }))
+      );
+    } else {
+      setWorkers((prevWorkers) =>
+        prevWorkers.map((worker) => ({ ...worker, selected: false }))
+      );
+      setFilteredWorkers((prevFiltered) =>
+        prevFiltered.map((worker) => ({
+          ...worker,
+          selected: false,
+        }))
+      );
+    }
   };
 
   function cyrillicToLatin(input: string): string {
@@ -376,8 +394,38 @@ const Send: React.FC = () => {
 
     setFile(selectedFile);
   };
+  interface Obj {
+    phone: string;
+    selected: boolean;
+  }
+
+  function filterUnique(arr: Obj[]): any {
+    const result: Obj[] = [];
+    const seenPhones = new Set<string>();
+
+    arr.forEach((obj) => {
+      if (!seenPhones.has(obj.phone)) {
+        const similarObjs = arr.filter((item) => item.phone === obj.phone);
+
+        if (similarObjs.length > 1) {
+          const selectedObj = similarObjs.find((item) => item.selected);
+          if (selectedObj) {
+            result.push(selectedObj);
+          } else {
+            result.push(similarObjs[0]); // Agar 'selected: true' yo'q bo'lsa, birinchisini oladi
+          }
+        } else {
+          result.push(obj); // Yagona bo'lsa, o'zini qo'shadi
+        }
+
+        seenPhones.add(obj.phone);
+      }
+    });
+
+    return result;
+  }
+
   const handleSubmite = async () => {
-    setLoading(true);
     if (!file) return;
 
     const myHeaders = new Headers();
@@ -398,7 +446,17 @@ const Send: React.FC = () => {
       .then((result: any) => {
         const res = textToJson(result);
         if (res.success) {
-          setLoading(false);
+          const filData = res.data.map((e: any) => ({
+            FIO: e.username,
+            phone: e.phone,
+            selected: true,
+            summa: e.summa,
+            _id: e.id,
+          }));
+
+          setWorkers(filterUnique([...workers, ...filData]));
+          setFilteredWorkers(filterUnique([...workers, ...filData]));
+
           dispatch(
             alertChange({
               open: true,
@@ -406,11 +464,7 @@ const Send: React.FC = () => {
               status: "success",
             })
           );
-          setSendData(res.data);
-          dispatch(setModalCoctav({ open: true }));
-          getWorkers();
         } else {
-          setLoading(false);
           dispatch(
             alertChange({
               open: true,

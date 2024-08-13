@@ -27,7 +27,7 @@ const CustomTableHead = styled(TableHead)(({ theme }) => ({
   },
 }));
 interface Column {
-  id: "number" | "FIO" | "Phone" | "actions";
+  id: "number" | "FIO" | "Phone" | "summa" | "actions";
   label: string;
   minWidth?: number;
   align?: "right" | "center" | "left";
@@ -37,17 +37,23 @@ interface Column {
 const columns: readonly Column[] = [
   { id: "number", label: "т/р", align: "left", minWidth: 5 },
 
-  { id: "FIO", label: latinToCyrillic("Mijoz Ismi"), align: "left", minWidth: 140 },
+  {
+    id: "FIO",
+    label: latinToCyrillic("Mijoz Ismi"),
+    align: "left",
+    minWidth: 140,
+  },
   {
     id: "Phone",
     label: latinToCyrillic("Telefon Raqami"),
     align: "center",
-    minWidth: 100,
+    minWidth: 150,
   },
+
   {
     id: "actions",
     label: latinToCyrillic("Amallar"),
-    minWidth: 150,
+    minWidth: 100,
     align: "right",
   },
 ];
@@ -56,6 +62,7 @@ interface Data {
   number: any;
   FIO: any;
   Phone: any;
+
   actions: any;
   id: number;
 }
@@ -64,6 +71,7 @@ function createData(
   number: any,
   FIO: any,
   Phone: any,
+
   actions: any,
   id: number
 ): Data {
@@ -71,6 +79,7 @@ function createData(
     number,
     FIO,
     Phone,
+
     actions,
     id,
   };
@@ -91,8 +100,10 @@ export default function AdminTab({
   rowsPerPage: any;
   handleChangeRowsPerPage: any;
 }) {
+  console.log(ranks);
+
   const rows = ranks.map((e: any, i: any) =>
-    createData(i + 1, e.username, e.phone, null, e.id)
+    createData(i + 1, e.username, e.phone,  null, e.id)
   );
   const dispatch = useDispatch();
   const router = useRouter();

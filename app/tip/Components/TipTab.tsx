@@ -28,7 +28,7 @@ const CustomTableHead = styled(TableHead)(({ theme }) => ({
 }));
 
 interface Column {
-  id: "number" | "FIO" | "Otryad" | "actions";
+  id: "number" | "FIO" | "Otryad" | "summa" | "actions";
   label: string;
   minWidth?: number;
   align?: "right" | "center" | "left";
@@ -41,6 +41,12 @@ const columns: readonly Column[] = [
   {
     id: "Otryad",
     label: latinToCyrillic("Batalyon"),
+    minWidth: 90,
+    align: "center",
+  },
+  {
+    id: "summa",
+    label: latinToCyrillic("Summa"),
     minWidth: 180,
     align: "center",
   },
