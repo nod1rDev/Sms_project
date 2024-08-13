@@ -453,7 +453,7 @@ const Send: React.FC = () => {
             summa: e.summa,
             _id: e.id,
           }));
-
+          
           setWorkers(filterUnique([...workers, ...filData]));
           setFilteredWorkers(filterUnique([...workers, ...filData]));
 
