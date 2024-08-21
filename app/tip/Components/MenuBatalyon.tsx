@@ -17,13 +17,13 @@ export default function MenuBatalyon({ data }: { data: any }) {
   const handleClick = (item: any) => {
     dispatch(setBatalyon(item));
     sessionStorage.setItem("batalyonId", item.id);
-    router.push("/tip/adminTip/" + item.id);
+    router.push("/tip/" + item.id);
   };
 
   return (
     <>
       <h1 className="text-[28px] mt-10 font-bold mx-auto text-center mb-4">
-        {latinToCyrillic("Bataly'on tanlang")}
+        {latinToCyrillic("Tuman tanlang")}
       </h1>
 
       <div className="w-[80%] mb-10 mx-auto flex flex-col gap-4">
@@ -33,9 +33,7 @@ export default function MenuBatalyon({ data }: { data: any }) {
             onClick={() => handleClick(item)}
             className={`flex gap-6 justify-center items-center px-4 w-full  py-12 rounded-xl transition-all duration-300 bg-[#1976D2] text-white hover:bg-[#fff] hover:text-[#1976D2] hover:scale-105`}
           >
-            <h1 className="text-[20px] font-bold text-center">
-              {item.username}
-            </h1>
+            <h1 className="text-[20px] font-bold text-center">{item.name}</h1>
           </button>
         ))}
       </div>

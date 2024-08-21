@@ -16,6 +16,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { alertChange } from "@/app/Redux/ShaxsiySlice";
 import TadbirCard from "./Components/TadbirCard";
 import { formatNumber } from "@/app/Utils";
+import Tip from "../Components/Tip";
 
 const Page = () => {
   const { id } = useParams();
@@ -96,81 +97,16 @@ const Page = () => {
 
   return (
     <>
-      <div className="w-[80%] flex flex-col mt-6 mx-auto">
-        <h1 className="flex justify-center font-bold mb-4 text-[32px]">
-          {worker && worker}
-        </h1>
-        <div className="flex mb-5 justify-start">
-          <Button
-            startIcon={<ArrowBackIcon />}
-            color="info"
-            variant="contained"
-            onClick={() => (!admin ? router.push("/tip") : router.back())}
-          >
-            {"орқага"}
-          </Button>
-        </div>
-
-        <div className="flex w-full justify-between mb-10">
-          <div className="flex flex-col">
-            <h1 className="text-[28px]  font-bold">
-              {latinToCyrillic("Tadbirlardan oladigan maoshi")}
-            </h1>
-            <span className=" text-red-500 ml-3  font-bold">
-              {formatNumber(summa) + " " + latinToCyrillic("sum")}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex  items-center gap-4">
-              <TextField
-                id="date1"
-                label={latinToCyrillic("Sana 1")}
-                sx={{ width: "200px" }}
-                onChange={handleChangeValue}
-                variant="outlined"
-                value={value.date1}
-                name="date1"
-                autoComplete="off"
-              />
-
-              <TextField
-                id="date2"
-                label={latinToCyrillic("Sana 2")}
-                sx={{ width: "200px" }}
-                onChange={handleChangeValue}
-                variant="outlined"
-                value={value.date2}
-                name="date2"
-                autoComplete="off"
-              />
-
-              {search ? (
-                <IconButton
-                  size="large"
-                  sx={{ width: "60px", height: "60px" }}
-                  aria-label="delete"
-                  onClick={searchData}
-                >
-                  <CloseIcon fontSize="inherit" color="error" />
-                </IconButton>
-              ) : (
-                <IconButton
-                  size="large"
-                  sx={{ width: "60px", height: "60px" }}
-                  aria-label="delete"
-                  onClick={searchData}
-                >
-                  <SearchIcon fontSize="inherit" color="info" />
-                </IconButton>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4">
-          {shartnomalar &&
-            shartnomalar.map((e: any) => <TadbirCard data={e} />)}
-        </div>
+      <div className="mt-5 ml-10">
+        <Button
+          onClick={() => router.push("/tip")}
+          color="info"
+          variant="contained"
+        >
+          {latinToCyrillic("Orqaga")}
+        </Button>
       </div>
+      <Tip id={id} />
     </>
   );
 };

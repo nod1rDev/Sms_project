@@ -100,11 +100,11 @@ export default function AdminTab({
   rowsPerPage: any;
   handleChangeRowsPerPage: any;
 }) {
-  console.log(ranks);
-
-  const rows = ranks.map((e: any, i: any) =>
-    createData(i + 1, e.username, e.phone,  null, e.id)
-  );
+  const rows = ranks
+    ? ranks.map((e: any, i: any) =>
+        createData(i + 1, e.username, e.phone, null, e.id)
+      )
+    : [];
   const dispatch = useDispatch();
   const router = useRouter();
   const admin = useSelector((s: any) => s.auth.admin);

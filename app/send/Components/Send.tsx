@@ -17,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { latinToCyrillic } from "@/app/tip/add/Components/lotin";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import {
+  ForCheked,
   URL,
   getAllClients,
   getAllWorkers2,
@@ -69,7 +70,7 @@ const Send: React.FC = () => {
   const [sendData, setSendData] = useState();
 
   const getWorkers = async () => {
-    const res = await getAllClients(JWT, 1, 10000);
+    const res = await ForCheked(JWT);
 
     const filData = res.data.map((e: any) => ({
       FIO: e.username,
@@ -453,7 +454,7 @@ const Send: React.FC = () => {
             summa: e.summa,
             _id: e.id,
           }));
-          
+
           setWorkers(filterUnique([...workers, ...filData]));
           setFilteredWorkers(filterUnique([...workers, ...filData]));
 

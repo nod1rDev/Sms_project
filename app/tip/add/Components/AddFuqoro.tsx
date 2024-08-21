@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { alertChange } from "@/app/Redux/ShaxsiySlice";
 import { latinToCyrillic } from "./lotin";
 import { createClient, createWorker } from "@/app/Api/Apis";
-function AddFuqoro() {
+function AddFuqoro({ id }: any) {
   const [data, setData] = useState([]);
   const JWT = useSelector((s: any) => s.auth.JWT);
   const router = useRouter();
@@ -21,7 +21,9 @@ function AddFuqoro() {
         phone: e.phone,
       };
     });
-    const res = await createClient(JWT, pureData);
+    const res = await createClient(JWT, id, pureData);
+    
+
     if (res.success) {
       dispatch(
         alertChange({
@@ -31,7 +33,7 @@ function AddFuqoro() {
         })
       );
       setData([]);
-      router.push("/tip");
+      router.push("/tip/" + id);
     } else {
       dispatch(
         alertChange({
@@ -53,10 +55,7 @@ function AddFuqoro() {
         {latinToCyrillic("Mijoz qo'shish")}
       </div>
       <div className="mb-4">
-        <Button
-          onClick={() => (!admin ? router.push("/tip") : router.back())}
-          variant="contained"
-        >
+        <Button onClick={() => router.back()} variant="contained">
           {latinToCyrillic("Orqaga")}
         </Button>
       </div>

@@ -1138,7 +1138,7 @@ export const getAllBoshliq = async (JWT: any) => {
 
 //manzil
 export const createManzil = async (JWT: any, value: any) => {
-  const res = await fetch(URL + "/address/create", {
+  const res = await fetch(URL + "/region/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -1152,7 +1152,7 @@ export const createManzil = async (JWT: any, value: any) => {
   return data;
 };
 export const updateManzil = async (JWT: any, value: any, id: any) => {
-  const res = await fetch(URL + "/address/update/" + id, {
+  const res = await fetch(URL + "/region/update/" + id, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -1166,7 +1166,7 @@ export const updateManzil = async (JWT: any, value: any, id: any) => {
   return data;
 };
 export const deleteManzil = async (JWT: any, id: any) => {
-  const res = await fetch(URL + "/address/delete/" + id, {
+  const res = await fetch(URL + "/region/delete/" + id, {
     method: "DELETE",
     headers: {
       Authorization: "Bearer " + JWT,
@@ -1178,7 +1178,7 @@ export const deleteManzil = async (JWT: any, id: any) => {
   return data;
 };
 export const getAllManzil = async (JWT: any) => {
-  const res = await fetch(URL + "/address/get/all", {
+  const res = await fetch(URL + "/region/get", {
     method: "GET",
     headers: {
       Authorization: "Bearer " + JWT,
@@ -1368,8 +1368,8 @@ export const deltePushWorker = async (JWT: any, id: any, task_id: any) => {
 };
 
 //clien
-export const createClient = async (JWT: any, value: any) => {
-  const res = await fetch(URL + "/client/create", {
+export const createClient = async (JWT: any, id: any, value: any) => {
+  const res = await fetch(URL + "/client/create/" + id, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -1383,8 +1383,28 @@ export const createClient = async (JWT: any, value: any) => {
   return data;
 };
 
-export const getAllClients = async (JWT: any, page: any, limet: any) => {
-  const res = await fetch(URL + `/client/get/?page=${page}&limit=${limet}`, {
+export const getAllClients = async (
+  JWT: any,
+  id: any,
+  page: any,
+  limet: any
+) => {
+  const res = await fetch(
+    URL + `/client/get/${id}?page=${page}&limit=${limet}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + JWT,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const data = await res.json();
+  return data;
+};
+export const ForCheked = async (JWT: any) => {
+  const res = await fetch(URL + `/client/for/checked`, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + JWT,

@@ -26,7 +26,7 @@ import {
   updateWorker,
 } from "@/app/Api/Apis";
 
-function Tip() {
+function Tip(id: any) {
   const admin = useSelector((s: any) => s.auth.admin);
   const dispatch = useDispatch();
   const JWT = useSelector((s: any) => s.auth.JWT);
@@ -46,7 +46,9 @@ function Tip() {
   const [searchStatus, setSearchStatus] = useState(false);
   const getAllRanks = async () => {
     try {
-      const res = await getAllClients(JWT, page+1, rowsPerPage);
+      const res = await getAllClients(JWT, id.id, page + 1, rowsPerPage);
+     
+
       setData(res);
       setAllRanks(res.data);
       setFilteredRanks(res.data);
@@ -257,7 +259,7 @@ function Tip() {
           <div className="flex gap-4">
             <Button
               sx={{ width: "150px", height: "40px" }}
-              onClick={() => router.push("/tip/add")}
+              onClick={() => router.push("/tip/add/" + id.id)}
               variant="contained"
             >
               {latinToCyrillic("Qo'shish")}

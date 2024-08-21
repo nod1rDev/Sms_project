@@ -11,7 +11,7 @@ import TextsmsIcon from "@mui/icons-material/Textsms";
 import { puJWT } from "../Redux/AuthSlice";
 import { latinToCyrillic } from "../tip/add/Components/lotin";
 import Link from "next/link";
-
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 export default function Header() {
   const admin = useSelector((state: any) => state.auth.admin);
   const router = useRouter();
@@ -33,6 +33,11 @@ export default function Header() {
       name: "Mijoz",
       path: admin ? "/tip/batalyon" : "/tip",
       icon: <PermIdentityIcon />,
+    },
+    {
+      name: "Tuman",
+      path: "/manzil",
+      icon: <AddLocationAltIcon />,
     },
     {
       name: "Xisobot",
@@ -71,27 +76,27 @@ export default function Header() {
     <div className="py-6 min-h-[100vh] w-[300px] fixed top-0 left-0 flex flex-col bg-[#1976D2] text-white">
       <Link href={"/send"}>
         <div className="flex pl-3 gap-2 items-center">
-          
           <h1 className="text-[26px] font-bold">{latinToCyrillic("SMS")}</h1>
         </div>
       </Link>
       <div className="min-w-[300px] h-[1px] bg-white my-4"></div>
       <div className="flex flex-col px-3 gap-4">
         {menuListAdmin.map((e) => (
-          <button
-            key={e.path}
-            onClick={() => handleClick(e.path)}
-            className={`flex gap-6 items-center px-4 w-full py-2 rounded-xl transition-all duration-300 ${
-              active === e.path
-                ? "bg-white text-[#1976D2] transform scale-105"
-                : "bg-[#1976D2] text-white hover:bg-[#fff] hover:text-[#1976D2] hover:scale-105"
-            }`}
-          >
-            {e.icon}
-            <h1 className="text-[20px] font-bold text-center">
-              {latinToCyrillic(e.name)}
-            </h1>
-          </button>
+          <Link href={e.path}>
+            <button
+              key={e.path}
+              className={`flex gap-6 items-center px-4 w-full py-2 rounded-xl transition-all duration-300 ${
+                active === e.path
+                  ? "bg-white text-[#1976D2] transform scale-105"
+                  : "bg-[#1976D2] text-white hover:bg-[#fff] hover:text-[#1976D2] hover:scale-105"
+              }`}
+            >
+              {e.icon}
+              <h1 className="text-[20px] font-bold text-center">
+                {latinToCyrillic(e.name)}
+              </h1>
+            </button>
+          </Link>
         ))}
 
         <button
