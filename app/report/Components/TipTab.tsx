@@ -93,17 +93,21 @@ export default function TipTab({
   rowsPerPage: any;
   handleChangeRowsPerPage: any;
 }) {
-  const rows = ranks.map((e: any, i: any) =>
-    createData(
-      page + 1 * rowsPerPage + i + 1,
-      e.senddate,
-      e.username,
-      e.phone,
-      e.report,
-      null,
-      e.id
-    )
-  );
+ 
+
+  const rows = ranks
+    ? ranks.map((e: any, i: any) =>
+        createData(
+          page + 1 * rowsPerPage + i + 1,
+          e.senddate,
+          e.username,
+          e.phone,
+          e.report,
+          null,
+          e.id
+        )
+      )
+    : [];
 
   const dispatch = useDispatch();
   const router = useRouter();

@@ -55,6 +55,7 @@ function Page() {
 
   const getAllRanks = async () => {
     const res = await getAllWorkers(JWT, id);
+    console.log(res);
 
     setData(res);
     setAllRanks(res.data);

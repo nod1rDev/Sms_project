@@ -264,14 +264,14 @@ function Tip(id: any) {
             >
               {latinToCyrillic("Qo'shish")}
             </Button>
-            <Button
+            {/* <Button
               onClick={downloadExcel}
               startIcon={<CloudDownloadIcon />}
               variant="contained"
               color="success"
             >
               {"Excel"}
-            </Button>
+            </Button> */}
           </div>
         </div>
         <AdminTab
