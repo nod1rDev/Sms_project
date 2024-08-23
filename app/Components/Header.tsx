@@ -8,10 +8,13 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import SendIcon from "@mui/icons-material/Send";
 import LogoutIcon from "@mui/icons-material/Logout";
 import TextsmsIcon from "@mui/icons-material/Textsms";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { puJWT } from "../Redux/AuthSlice";
 import { latinToCyrillic } from "../tip/add/Components/lotin";
 import Link from "next/link";
-import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+
 export default function Header() {
   const admin = useSelector((state: any) => state.auth.admin);
   const router = useRouter();
@@ -47,6 +50,7 @@ export default function Header() {
   ];
 
   const [active, setActive] = React.useState<string>(menuListAdmin[0].path);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (pathname === "/") {
@@ -61,9 +65,11 @@ export default function Header() {
     }
   }, [pathname, menuListAdmin]);
 
-  const handleClick = (path: string) => {
+  const handleClick = async (path: string) => {
+    setLoading(true);
     setActive(path);
-    router.push(path);
+    await router.push(path);
+    setLoading(false);
   };
 
   const AuthOut = () => {
@@ -82,21 +88,20 @@ export default function Header() {
       <div className="min-w-[300px] h-[1px] bg-white my-4"></div>
       <div className="flex flex-col px-3 gap-4">
         {menuListAdmin.map((e) => (
-          <Link href={e.path}>
-            <button
-              key={e.path}
-              className={`flex gap-6 items-center px-4 w-full py-2 rounded-xl transition-all duration-300 ${
-                active === e.path
-                  ? "bg-white text-[#1976D2] transform scale-105"
-                  : "bg-[#1976D2] text-white hover:bg-[#fff] hover:text-[#1976D2] hover:scale-105"
-              }`}
-            >
-              {e.icon}
-              <h1 className="text-[20px] font-bold text-center">
-                {latinToCyrillic(e.name)}
-              </h1>
-            </button>
-          </Link>
+          <button
+            key={e.path}
+            onClick={() => handleClick(e.path)}
+            className={`flex gap-6 items-center px-4 w-full py-2 rounded-xl transition-all duration-300 ${
+              active === e.path
+                ? "bg-white text-[#1976D2] transform scale-105"
+                : "bg-[#1976D2] text-white hover:bg-[#fff] hover:text-[#1976D2] hover:scale-105"
+            }`}
+          >
+            {e.icon}
+            <h1 className="text-[20px] font-bold text-center">
+              {latinToCyrillic(e.name)}
+            </h1>
+          </button>
         ))}
 
         <button
@@ -109,6 +114,14 @@ export default function Header() {
           </h1>
         </button>
       </div>
+
+      {/* Loading Backdrop */}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

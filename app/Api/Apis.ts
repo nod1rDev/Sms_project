@@ -1,4 +1,4 @@
-export const URL = " https://147.45.107.174:4000";
+export const URL = "https://147.45.107.174:4000";
 
 // Auth
 
