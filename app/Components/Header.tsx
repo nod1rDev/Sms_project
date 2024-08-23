@@ -11,7 +11,7 @@ import TextsmsIcon from "@mui/icons-material/Textsms";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { puJWT } from "../Redux/AuthSlice";
+import { puJWT, setLoadingg } from "../Redux/AuthSlice";
 import { latinToCyrillic } from "../tip/add/Components/lotin";
 import Link from "next/link";
 
@@ -66,10 +66,14 @@ export default function Header() {
   }, [pathname, menuListAdmin]);
 
   const handleClick = async (path: string) => {
-    setLoading(true);
+    dispatch(setLoadingg(true));
     setActive(path);
+
+    // 4 sekund kutish
+    await new Promise((resolve) => setTimeout(resolve, 4000));
+
     await router.push(path);
-    setLoading(false);
+    dispatch(setLoadingg(false));
   };
 
   const AuthOut = () => {
@@ -114,14 +118,6 @@ export default function Header() {
           </h1>
         </button>
       </div>
-
-      {/* Loading Backdrop */}
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </div>
   );
 }

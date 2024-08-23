@@ -11,6 +11,7 @@ const AuthSlice = createSlice({
     id: 0,
     admin: false,
     relaod: 1,
+    loading: false,
   },
   reducers: {
     puJWT: (state, { payload }) => {
@@ -27,9 +28,13 @@ const AuthSlice = createSlice({
     changeReload: (state, { payload }) => {
       state.relaod = state.relaod + payload;
     },
+    setLoadingg: (state, { payload }) => {
+      state.loading = payload;
+    },
   },
 });
 
-export const { puJWT, setUser, changeAdminStatuss,changeReload } = AuthSlice.actions;
+export const { puJWT, setUser, changeAdminStatuss, changeReload,setLoadingg } =
+  AuthSlice.actions;
 
 export default AuthSlice.reducer;
