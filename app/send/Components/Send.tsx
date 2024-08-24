@@ -404,9 +404,9 @@ const Send: React.FC = () => {
     const result: Obj[] = [];
     const seenPhones = new Set<string>();
 
-    arr.forEach((obj) => {
-      if (!seenPhones.has(obj.phone)) {
-        const similarObjs = arr.filter((item) => item.phone === obj.phone);
+    arr.forEach((obj: any) => {
+      if (!seenPhones.has(obj._id)) {
+        const similarObjs = arr.filter((item: any) => item._id === obj._id);
 
         if (similarObjs.length > 1) {
           const selectedObj = similarObjs.find((item) => item.selected);
@@ -419,7 +419,7 @@ const Send: React.FC = () => {
           result.push(obj); // Yagona bo'lsa, o'zini qo'shadi
         }
 
-        seenPhones.add(obj.phone);
+        seenPhones.add(obj._id);
       }
     });
 
@@ -456,6 +456,8 @@ const Send: React.FC = () => {
           }));
 
           setWorkers(filterUnique([...workers, ...filData]));
+          console.log(filterUnique([...workers, ...filData]));
+
           setFilteredWorkers(filterUnique([...workers, ...filData]));
 
           dispatch(
