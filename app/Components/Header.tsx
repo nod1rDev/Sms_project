@@ -68,12 +68,26 @@ export default function Header() {
   const handleClick = async (path: string) => {
     dispatch(setLoadingg(true));
     setActive(path);
-
-    // 4 sekund kutish
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-
-    await router.push(path);
-    dispatch(setLoadingg(false));
+  
+    try {
+      await router.push(path);
+  
+      // Continuously check if the URL matches the path
+      const checkPathMatch = () => {
+        return new Promise<void>((resolve) => {
+          const intervalId = setInterval(() => {
+            if (window.location.pathname === path) {
+              clearInterval(intervalId);
+              resolve();
+            }
+          }, 100);
+        });
+      };
+  
+      await checkPathMatch();
+    } finally {
+      dispatch(setLoadingg(false));
+    }
   };
 
   const AuthOut = () => {

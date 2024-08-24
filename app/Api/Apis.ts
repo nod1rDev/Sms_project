@@ -1,5 +1,5 @@
-export const URL = "https://147.45.107.174:4000";
-// 
+export const URL = "http://147.45.107.174:4000";
+// https://147.45.107.174:4000
 // Auth
 
 export const loginAuth = async (username: any, password: any) => {
