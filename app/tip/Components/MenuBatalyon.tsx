@@ -8,10 +8,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBatalyon } from "@/app/Redux/TipSlice";
 import { useRouter } from "next/navigation";
 import { Button } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { latinToCyrillic } from "../add/Components/lotin";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import { cleintExcel } from "@/app/Api/Apis";
+import { URL, cleintExcel } from "@/app/Api/Apis";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { alertChange } from "@/app/Redux/ShaxsiySlice";
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 export default function MenuBatalyon({ data }: { data: any }) {
   const itemData = data || []; // To handle if data is undefined
   const dispatch = useDispatch();
@@ -50,17 +63,110 @@ export default function MenuBatalyon({ data }: { data: any }) {
       );
     }
   };
+  const [file, setFile] = React.useState<any>(null);
+  const handleFileChange = (event: any) => {
+    const selectedFile = event.target.files?.[0];
+
+    setFile(selectedFile);
+  };
+  const textToJson = (text: string) => {
+    try {
+      const jsonObject = JSON.parse(text);
+      return jsonObject;
+    } catch (error) {
+      return { success: false, message: "Invalid JSON format" };
+    }
+  };
+  const handleSubmit = async () => {
+    if (!file) return;
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${JWT}`);
+
+    const formdata = new FormData();
+    formdata.append("file", file);
+
+    const requestOptions: any = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(URL + "/client/import/excel", requestOptions)
+      .then((response) => response.text())
+      .then((result: any) => {
+        const res = textToJson(result);
+        if (res.success) {
+          dispatch(
+            alertChange({
+              open: true,
+              message: latinToCyrillic("Exel file kiritildi"),
+              status: "success",
+            })
+          );
+
+          location.reload();
+        } else {
+          dispatch(
+            alertChange({
+              open: true,
+              message: latinToCyrillic(res.message),
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch((error) =>
+        dispatch(
+          alertChange({
+            open: true,
+            message: error,
+            status: "error",
+          })
+        )
+      );
+  };
   return (
     <>
       <div className="flex justify-end mt-10 mr-10">
-        <Button
-          onClick={downloadExcel}
-          startIcon={<CloudDownloadIcon />}
-          variant="contained"
-          color="success"
-        >
-          {"Excel"}
-        </Button>
+        <div className="flex justify-between gap-10">
+          <div className="flex gap-4 items-center">
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              color="success"
+              startIcon={<CloudUploadIcon />}
+            >
+              {latinToCyrillic("Exel file yuklash")}
+              <VisuallyHiddenInput
+                type="file"
+                hidden
+                accept=".xlsx,.xls"
+                onChange={handleFileChange}
+              />
+            </Button>
+            {file && (
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="secondary"
+              >
+                {latinToCyrillic("Fileni Yuklash")}
+              </Button>
+            )}
+          </div>
+          <Button
+            onClick={downloadExcel}
+            startIcon={<CloudDownloadIcon />}
+            variant="contained"
+            color="info"
+          >
+            {"Excel"}
+          </Button>
+        </div>
       </div>
       <h1 className="text-[28px] mt-10 font-bold mx-auto text-center mb-4">
         {latinToCyrillic("Tuman tanlang")}

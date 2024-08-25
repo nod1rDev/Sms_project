@@ -155,7 +155,7 @@ function CreateFuqaro({ data, setData }: { data: any; setData: any }) {
   return (
     <form onSubmit={saqlsh} className="w-full mt-6 flex flex-col gap-4">
       <div className="flex w-full justify-between">
-        <div className="flex gap-4 items-center">
+        {/* <div className="flex gap-4 items-center">
           <Button
             component="label"
             role={undefined}
@@ -181,7 +181,7 @@ function CreateFuqaro({ data, setData }: { data: any; setData: any }) {
               {latinToCyrillic("Fileni Yuklash")}
             </Button>
           )}
-        </div>
+        </div> */}
         <Button type="submit" variant="contained">
           {latinToCyrillic("Qo'shish")}
         </Button>

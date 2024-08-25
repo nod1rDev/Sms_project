@@ -51,7 +51,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "number", label: "т/р", align: "left", minWidth: 10 },
+  { id: "number", label: latinToCyrillic("id"), align: "left", minWidth: 10 },
   {
     id: "FoydalanuvchiNomi",
     label: latinToCyrillic("Tuman"),
@@ -102,7 +102,6 @@ export default function Page() {
 
   const getUsers = async () => {
     const res = await getAllManzil(JWT);
-   
 
     setUsers(res.data);
   };
@@ -112,7 +111,7 @@ export default function Page() {
   }, []);
 
   const rows = users
-    ? users.map((e: any) => createData(1, e.name, null, e.id))
+    ? users.map((e: any) => createData(e.id, e.name, null, e.id))
     : [];
   const dispatch = useDispatch();
 
@@ -285,9 +284,7 @@ export default function Page() {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {e === 0 ? (
-                              i + 1
-                            ) : e === 2 ? (
+                            {e === 2 ? (
                               <>
                                 <IconButton
                                   onClick={() =>
