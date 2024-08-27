@@ -71,12 +71,14 @@ const Send: React.FC = () => {
 
   const getWorkers = async () => {
     const res = await ForCheked(JWT);
+    console.log(res);
 
     const filData = res.data.map((e: any) => ({
       FIO: e.username,
       phone: e.phone,
       selected: false,
       summa: "",
+      region: e.region_name,
       _id: e.id,
     }));
     setWorkers(filData);
@@ -447,10 +449,13 @@ const Send: React.FC = () => {
       .then((result: any) => {
         const res = textToJson(result);
         if (res.success) {
+          console.log(res);
+
           const filData = res.data.map((e: any) => ({
             FIO: e.username,
             phone: e.phone,
             selected: true,
+            region: e.region,
             summa: e.summa,
             _id: e.id,
           }));
@@ -593,7 +598,12 @@ const Send: React.FC = () => {
                         />
                       </ListItemIcon>
                       <div className="flex mt-2 justify-center">
-                        <span className="w-[200px] text-left">{value.FIO}</span>
+                        <span className="w-[200px] text-left">
+                          {value.region}
+                        </span>
+                        <span className="w-[200px] text-center">
+                          {value.FIO}
+                        </span>
                         <span className="w-[200px] text-right">
                           {value.phone}
                         </span>

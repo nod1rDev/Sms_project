@@ -70,14 +70,7 @@ function createData(number: any, FIO: any, Otryad: any, phone: any): any {
 
 export default function SendTab({ ranks }: { ranks: any }) {
   const rows = ranks.map((e: any, i: any) =>
-    createData(
-      i + 1,
-      e.username,
-      e.phone,
-      e.success
-        ? latinToCyrillic("Jonatilgan")
-        : latinToCyrillic("Jonatilinmagan")
-    )
+    createData(i + 1, e.username, e.phone, e.success)
   );
 
   return (
@@ -105,9 +98,21 @@ export default function SendTab({ ranks }: { ranks: any }) {
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === "number"
-                          ? column.format(value)
-                          : value}
+                        {e == 3 ? (
+                          <div
+                            className={`w-[140px] h-[40px] text-white flex justify-center items-center ml-[60%] rounded-xl ${
+                              row.phone ? "bg-green-600" : "bg-red-600"
+                            }`}
+                          >
+                            {row.phone
+                              ? latinToCyrillic("Jonailtdi")
+                              : latinToCyrillic("Jonatilmadi")}
+                          </div>
+                        ) : column.format && typeof value === "number" ? (
+                          column.format(value)
+                        ) : (
+                          value
+                        )}
                       </TableCell>
                     );
                   })}
