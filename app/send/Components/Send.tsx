@@ -71,7 +71,6 @@ const Send: React.FC = () => {
 
   const getWorkers = async () => {
     const res = await ForCheked(JWT);
-    console.log(res);
 
     const filData = res.data.map((e: any) => ({
       FIO: e.username,
@@ -392,10 +391,17 @@ const Send: React.FC = () => {
     dispatch(setModalCoctav({ open: false }));
   };
   const [file, setFile] = useState<any>(null);
+  const [file2, setFile2] = useState<any>(null);
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files?.[0];
 
     setFile(selectedFile);
+  };
+
+  const handleFileChange2 = (event: any) => {
+    const selectedFile = event.target.files?.[0];
+
+    setFile2(selectedFile);
   };
   interface Obj {
     phone: string;
@@ -492,36 +498,110 @@ const Send: React.FC = () => {
         )
       );
   };
+  const handleSubmite2 = async () => {
+    if (!file2) return;
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${JWT}`);
+
+    const formdata = new FormData();
+    formdata.append("file", file2);
+
+    const requestOptions: any = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(URL + "/sms/send/sms/comfortable", requestOptions)
+      .then((response) => response.text())
+      .then((result: any) => {
+        const res = textToJson(result);
+        if (res.success) {
+          dispatch(
+            alertChange({
+              open: true,
+              message: latinToCyrillic("Exel file kiritildi"),
+              status: "success",
+            })
+          );
+        } else {
+          dispatch(
+            alertChange({
+              open: true,
+              message: latinToCyrillic(res.message),
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch((error) =>
+        dispatch(
+          alertChange({
+            open: true,
+            message: error,
+            status: "error",
+          })
+        )
+      );
+  };
   return (
     <div className="w-[95%] mt-5 flex-col gap-6 mx-auto">
       <div className="max-w-[100%]">
-        <div className="flex gap-4 items-center justify-end">
-          <Button
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            color="success"
-            startIcon={<CloudUploadIcon />}
-          >
-            {latinToCyrillic("Exel file yuklash")}
-            <VisuallyHiddenInput
-              type="file"
-              hidden
-              accept=".xlsx,.xls"
-              onChange={handleFileChange}
-            />
-          </Button>
-          {file && (
+        <div className=" flex justify-end gap-16">
+          <div className="flex gap-4 items-center ">
             <Button
-              onClick={handleSubmite}
+              component="label"
+              role={undefined}
               variant="contained"
-              color="secondary"
+              tabIndex={-1}
+              color="info"
+              startIcon={<CloudUploadIcon />}
             >
-              {latinToCyrillic("Fileni Yuklash")}
+              {latinToCyrillic("Tezkor sms")}
+              <VisuallyHiddenInput
+                type="file"
+                hidden
+                accept=".xlsx,.xls"
+                onChange={handleFileChange2}
+              />
             </Button>
-          )}
+            {file && (
+              <Button
+                onClick={handleSubmite2}
+                variant="contained"
+                color="error"
+              >
+                {latinToCyrillic("Jo'natish")}
+              </Button>
+            )}
+          </div>
+          <div className="flex gap-4 items-center ">
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              color="success"
+              startIcon={<CloudUploadIcon />}
+            >
+              {latinToCyrillic("Exel file yuklash")}
+              <VisuallyHiddenInput
+                type="file"
+                hidden
+                accept=".xlsx,.xls"
+                onChange={handleFileChange}
+              />
+            </Button>
+            {file && (
+              <Button onClick={handleSubmite} variant="contained" color="error">
+                {latinToCyrillic("Jo'natish")}
+              </Button>
+            )}
+          </div>
         </div>
+
         <div className="flex flex-col pb-5 border-b  gap-3">
           <h1 className="font-bold">{latinToCyrillic("Filter")}</h1>
           <form
