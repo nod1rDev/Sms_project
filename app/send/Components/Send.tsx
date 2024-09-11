@@ -532,7 +532,7 @@ const Send: React.FC = () => {
           console.log(filterUnique([...workers, ...filData]));
 
           setFilteredWorkers(filterUnique([...workers, ...filData]));
-          
+
           dispatch(
             alertChange({
               open: true,
@@ -581,7 +581,7 @@ const Send: React.FC = () => {
                 onChange={handleFileChange2}
               />
             </Button>
-            {file && (
+            {file2 && (
               <Button
                 onClick={handleSubmite2}
                 variant="contained"
