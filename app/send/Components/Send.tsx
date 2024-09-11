@@ -519,6 +519,20 @@ const Send: React.FC = () => {
       .then((result: any) => {
         const res = textToJson(result);
         if (res.success) {
+          const filData = res.data.map((e: any) => ({
+            FIO: e.username,
+            phone: e.phone,
+            selected: true,
+            region: e.region,
+            summa: e.summa,
+            _id: e.id,
+          }));
+
+          setWorkers(filterUnique([...workers, ...filData]));
+          console.log(filterUnique([...workers, ...filData]));
+
+          setFilteredWorkers(filterUnique([...workers, ...filData]));
+          
           dispatch(
             alertChange({
               open: true,
