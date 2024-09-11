@@ -499,6 +499,7 @@ const Send: React.FC = () => {
       );
   };
   const handleSubmite2 = async () => {
+    setLoading(true);
     if (!file2) return;
 
     const myHeaders = new Headers();
@@ -519,19 +520,10 @@ const Send: React.FC = () => {
       .then((result: any) => {
         const res = textToJson(result);
         if (res.success) {
-          const filData = res.data.map((e: any) => ({
-            FIO: e.username,
-            phone: e.phone,
-            selected: true,
-            region: e.region,
-            summa: e.summa,
-            _id: e.id,
-          }));
+          setLoading(false);
+          setSendData(res.data);
 
-          setWorkers(filterUnique([...workers, ...filData]));
-          console.log(filterUnique([...workers, ...filData]));
-
-          setFilteredWorkers(filterUnique([...workers, ...filData]));
+          dispatch(setModalCoctav({ open: true }));
 
           dispatch(
             alertChange({
@@ -541,6 +533,7 @@ const Send: React.FC = () => {
             })
           );
         } else {
+          setLoading(false);
           dispatch(
             alertChange({
               open: true,
